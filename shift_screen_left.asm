@@ -6,22 +6,31 @@ BasicUpstart2(start)
     *=$1000 "Start"
 
 start:
-                lda $d012
-                bne start
-                inc $d020
-                lda #<SCREEN_ADDR
-                sta $fb
-                lda #>SCREEN_ADDR
-                sta $fc
-                ldx #0
-                ldy #1
-column:         lda ($fb),y
-                dey
-                sta ($fb),y
-                iny
+                lda #$ff            // Maximum frequency value
+                sta $d40e           // Voice 3 frequency low byte
+                sta $d40f           // Voice 3 frequency high byte
+                lda #$80            // Noise waveform, gate bit off
+                sta $d412           // Voice 3 control register
+loop:           lda $d012           // Wait for raster line $ff
+                cmp #$ff
+                bne loop
+                lda #<SCREEN_ADDR   // Load screen low-byte of 
+                sta $fb             // screen address into ZP
+                lda #>SCREEN_ADDR   // Load screen hi-byte of 
+                sta $fc             // screen address into ZP
+                ldx #0              // Screen row 0
+                ldy #1              // Screen column 1
+column:         lda ($fb),y         // Load character from source
+                dey                 // "Jump" one back
+                sta ($fb),y         // Store character to destination
+                iny                 // "Jump" two forward
                 iny
                 cpy #COLUMNS
-                bne column
+                bne column          // Lather, rince and repeat
+                lda $d41b           // Load new character from LFSR
+                lsr                 // Divide it by 4 to make it usable
+                ldy #(COLUMNS-1)
+                sta ($fb),y
                 clc		
 	            lda $fb
 	            adc #COLUMNS
@@ -32,6 +41,5 @@ ok:             ldy #1
                 inx
                 cpx #ROWS
                 bne column
-                dec $d020
                 jmp start
 done:           rts
