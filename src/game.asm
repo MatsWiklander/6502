@@ -11,6 +11,7 @@ BasicUpstart2(start)
 start:          jsr display_instructions
                 // jsr display_splash
                 ClearScreen(SCREEN_RAM)
+                
                 jsr game_loop
                 rts
 

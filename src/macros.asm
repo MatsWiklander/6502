@@ -1,8 +1,8 @@
 #import "registers.asm"
 #import "variables.asm"
-#import "common.asm"
 
 #importonce
+
 .macro WaitForAnyKey() {
                 lda #$00
                 sta $c6

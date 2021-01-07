@@ -1,4 +1,5 @@
 #importonce
+
 .const VIC_II_BASE_ADDRESS = $d000
 .const X_COORD_SPRITE_0   = VIC_II_BASE_ADDRESS
 .const Y_COORD_SPRITE_0   = VIC_II_BASE_ADDRESS + $01

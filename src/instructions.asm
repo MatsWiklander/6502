@@ -3,6 +3,7 @@
 #import "colors.asm"
 
 #importonce
+
 display_instructions: {
                 lda #BLACK
                 sta BORDER_COLOR

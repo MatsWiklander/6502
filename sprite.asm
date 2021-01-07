@@ -1,4 +1,5 @@
-#import "vic_ii.asm"
+#import "src/registers.asm"
+#import "src/colors.asm"
 
 BasicUpstart2(start)
     *=$1000 "Start"
@@ -30,7 +31,7 @@ wait:   lda RASTER_COUNTER
         rts
 
 // sprite 0 / singlecolor / color: $01
-*=$3000
+*=$3000 "Sprites"
 sprite_0:
     .byte $00,$00,$00,$77,$00,$ee,$55,$00
     .byte $aa,$77,$00,$ee,$00,$00,$00,$70
